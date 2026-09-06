@@ -1,0 +1,91 @@
+:root {
+  --azul: #2d5f8a;
+  --azul-escuro: #1e3f5c;
+  --fundo: #f7f8fa;
+  --borda: #e1e5ea;
+  --texto: #24313f;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+  padding-bottom: 40px;
+}
+
+header {
+  background: var(--azul-escuro);
+  color: white;
+  padding: 20px 16px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 { margin: 0 0 2px; font-size: 1.4rem; }
+.subtitulo { margin: 0; font-size: 0.85rem; opacity: 0.85; }
+
+.filtros {
+  position: sticky;
+  top: 66px;
+  background: var(--fundo);
+  padding: 10px 16px;
+  z-index: 9;
+  border-bottom: 1px solid var(--borda);
+}
+
+#busca {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-top: 8px;
+  padding-bottom: 2px;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--borda);
+  background: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip.ativo { background: var(--azul); color: white; border-color: var(--azul); }
+
+main { padding: 10px 16px; }
+
+.item {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.item-titulo { font-weight: 600; font-size: 1rem; margin-bottom: 2px; }
+.item-serie { font-size: 0.82rem; color: #667; margin-bottom: 4px; }
+.item-autor { font-size: 0.88rem; color: #445; }
+.item-rodape {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: #99a;
+}
+.item-id { font-family: monospace; }
+
+.vazio { text-align: center; padding: 40px 20px; color: #889; }

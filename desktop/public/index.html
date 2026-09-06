@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shinko Toshokan — Manutenção</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📚 Shinko Toshokan <span class="badge">manutenção</span></h1>
+    <button id="btnPublicar" class="btn btn-primario">⬆️ Publicar alterações</button>
+  </header>
+
+  <nav class="abas">
+    <button class="aba-btn ativa" data-aba="cadastro">Cadastro manual</button>
+    <button class="aba-btn" data-aba="importar">Importar planilha</button>
+    <button class="aba-btn" data-aba="acervo">Acervo (<span id="totalItens">0</span>)</button>
+  </nav>
+
+  <main>
+    <section id="aba-cadastro" class="aba-conteudo ativa">
+      <h2>Cadastro manual</h2>
+
+      <div class="campo">
+        <label for="entradaBruta">Cole a referência (formato livre) e clique em "Interpretar":</label>
+        <div class="linha">
+          <input type="text" id="entradaBruta" placeholder="Ex: O Peregrino - John Bunyan">
+          <button id="btnInterpretar" class="btn">🔍 Interpretar</button>
+        </div>
+        <small id="confiancaAviso" class="aviso"></small>
+      </div>
+
+      <form id="formCadastro">
+        <div class="grid-2">
+          <div class="campo">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" required>
+          </div>
+          <div class="campo">
+            <label for="autorBruto">Autor (nome completo)</label>
+            <input type="text" id="autorBruto" required>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="campo">
+            <label for="midia">Mídia</label>
+            <select id="midia" required></select>
+          </div>
+          <div class="campo">
+            <label for="genero">Gênero</label>
+            <select id="genero" required></select>
+          </div>
+          <div class="campo">
+            <label for="volume">Volume <small>(deixe em branco p/ auto)</small></label>
+            <input type="number" id="volume" min="0">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="serie">Série <small>(opcional)</small></label>
+          <input type="text" id="serie">
+        </div>
+
+        <div class="prevideia" id="previaId"></div>
+
+        <button type="submit" class="btn btn-primario">➕ Adicionar ao acervo</button>
+      </form>
+      <div id="msgCadastro" class="mensagem"></div>
+    </section>
+
+    <section id="aba-importar" class="aba-conteudo">
+      <h2>Importar planilha (.xlsx)</h2>
+      <p>A planilha pode ter colunas <code>Titulo | Autor | Midia | Genero | Volume | Serie</code>,
+      ou uma única coluna <code>Entrada</code> com o texto bruto (o mesmo interpretador do cadastro manual será usado linha a linha).</p>
+      <input type="file" id="arquivoImport" accept=".xlsx">
+      <button id="btnImportar" class="btn btn-primario">📥 Importar</button>
+      <div id="resultadoImport" class="mensagem"></div>
+    </section>
+
+    <section id="aba-acervo" class="aba-conteudo">
+      <h2>Acervo cadastrado</h2>
+      <input type="text" id="filtroAcervo" placeholder="Filtrar por título, autor ou ID...">
+      <table id="tabelaAcervo">
+        <thead>
+          <tr><th>ID</th><th>Título</th><th>Autor</th><th>Série</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

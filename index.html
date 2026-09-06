@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shinko Toshokan</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📚 Shinko Toshokan</h1>
+    <p class="subtitulo" id="contagem">carregando acervo...</p>
+  </header>
+
+  <div class="filtros">
+    <input type="text" id="busca" placeholder="Buscar por título, autor, série ou ID...">
+    <div class="chips" id="chipsMidia"></div>
+  </div>
+
+  <main id="lista"></main>
+
+  <div id="vazio" class="vazio" style="display:none;">Nenhum item encontrado.</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

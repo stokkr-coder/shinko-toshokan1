@@ -1,0 +1,24 @@
+{
+  "itens": [
+    {
+      "id": "ST.0L.51.TOLK-00",
+      "titulo": "O Senhor dos Anéis",
+      "serie": null,
+      "autor": "TOLKIEN, J.R.R.",
+      "midia": "0L",
+      "genero": "51",
+      "volume": 0,
+      "criadoEm": "2026-09-02T00:00:00.000Z"
+    },
+    {
+      "id": "ST.0L.42.HAEN-1825",
+      "titulo": "Perry Rhodan - PR1825 - Luta por Trieger",
+      "serie": "Perry Rhodan",
+      "autor": "HAENSEL, Hubert",
+      "midia": "0L",
+      "genero": "42",
+      "volume": 1825,
+      "criadoEm": "2026-09-02T00:00:00.000Z"
+    }
+  ]
+}

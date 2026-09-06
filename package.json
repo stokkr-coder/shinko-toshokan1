@@ -1,0 +1,18 @@
+{
+  "name": "shinko-toshokan-desktop",
+  "version": "2.0.0",
+  "description": "App de manutenção (desktop) do acervo Shinko Toshokan — cadastro manual, importação em lote e publicação via Git.",
+  "main": "desktop/server.js",
+  "scripts": {
+    "start": "node desktop/server.js",
+    "test": "node lib/__selftest__.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "multer": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
