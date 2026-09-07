@@ -39,6 +39,12 @@ shinko-toshokan-v2/
 
 ## 2. Colocando no GitHub
 
+**Dica**: a partir da segunda vez, você pode pular os passos manuais e usar o
+`atualizar.bat` incluído no projeto (raiz da pasta) — dê duplo clique nele
+sempre que baixar um zip novo do Claude; ele copia os arquivos, roda
+`npm install`, `git add`, `commit` e `push` sozinho, sem apagar seu
+`data\acervo.json` nem as capas que você já enviou.
+
 1. Crie um repositório novo no GitHub (pode ser privado).
 2. Dentro da pasta `shinko-toshokan-v2`, rode:
    ```bash
@@ -171,6 +177,19 @@ outras séries suas nessa lista conforme forem aparecendo no acervo.
 Todos esses dados extras (`status`, `avaliacao`, `dataConclusao`, `capa`)
 também podem vir na planilha de importação em lote — veja as colunas
 aceitas na aba "Importar planilha" do app.
+
+## 8. Visual do celular: estante de madeira
+
+O site do celular renderiza os itens como uma estante de verdade: livros
+com capa aparecem com a imagem; livros sem capa ganham uma "lombada"
+colorida com o título na vertical (a cor é sempre a mesma pra um mesmo
+item, escolhida automaticamente a partir do ID). Toque em qualquer livro
+pra abrir os detalhes (autor, série, status, estrelas, ID). Isso usa a
+fonte Google Fonts "Fraunces" via link no `index.html` — precisa de
+internet no celular pra carregar (comum, já que o próprio site depende de
+internet). Se quiser mudar as cores da estante (madeira, latão, verde,
+vinho), estão todas centralizadas no topo do `style.css`, nas variáveis
+`:root`.
 
 ## 9. Limitações conhecidas
 

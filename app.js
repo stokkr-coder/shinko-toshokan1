@@ -9,6 +9,17 @@ const MIDIAS = {
 
 const STATUS_LABELS = { quero_ler: '📌 Quero ler', lendo: '📖 Lendo', lido: '✅ Lido' };
 
+// Paleta de "encadernação" para lombadas sem capa — tons de couro/tecido que
+// combinam com a madeira da estante. A cor é escolhida de forma determinística
+// a partir do ID, então o mesmo livro sempre cai na mesma cor.
+const CORES_LOMBADA = ['#6b2d2d', '#2d4a5e', '#3f5c3f', '#5c4a2d', '#4a2d5c', '#2d5c56', '#6b4423', '#3d3d5c'];
+
+function corLombada(id) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return CORES_LOMBADA[hash % CORES_LOMBADA.length];
+}
+
 let acervo = [];
 let filtroMidia = null;
 let filtroStatus = null;
@@ -31,7 +42,7 @@ async function iniciar() {
     return;
   }
 
-  document.getElementById('contagem').textContent = `${acervo.length} item(ns) no acervo`;
+  document.getElementById('contagem').textContent = `${acervo.length} item(ns) na estante`;
   montarChipsStatus();
   montarChipsMidia();
   renderizar(acervo);
@@ -40,12 +51,12 @@ async function iniciar() {
 function montarMetaLeitura(metas) {
   const anoAtual = new Date().getFullYear();
   const meta = metas[String(anoAtual)];
-  if (!meta) return; // sem meta definida para o ano — não mostra a barra
+  if (!meta) return;
 
   const lidosNoAno = acervo.filter((i) => i.status === 'lido' && i.dataConclusao && i.dataConclusao.startsWith(String(anoAtual))).length;
   const porcentagem = Math.min(100, Math.round((lidosNoAno / meta) * 100));
 
-  document.getElementById('metaTexto').textContent = `🎯 Meta ${anoAtual}: ${lidosNoAno} de ${meta} lidos`;
+  document.getElementById('metaTexto').textContent = `Meta ${anoAtual} — ${lidosNoAno} de ${meta} lidos`;
   document.getElementById('metaPorcentagem').textContent = `${porcentagem}%`;
   document.getElementById('metaBarraPreenchida').style.width = `${porcentagem}%`;
   document.getElementById('metaLeitura').style.display = 'block';
@@ -106,36 +117,77 @@ function aplicarFiltros() {
   renderizar(resultado);
 }
 
+function miniaturaHtml(item) {
+  if (item.capa) {
+    return `<img class="livro-capa" src="${item.capa}" alt="" loading="lazy">`;
+  }
+  return `
+    <div class="livro-lombada" style="background:${corLombada(item.id)}">
+      <span class="livro-lombada-texto">${item.titulo}</span>
+    </div>
+  `;
+}
+
 function renderizar(itens) {
-  const lista = document.getElementById('lista');
+  const estante = document.getElementById('estante');
   const vazio = document.getElementById('vazio');
 
   if (itens.length === 0) {
-    lista.innerHTML = '';
+    estante.innerHTML = '';
     vazio.style.display = 'block';
     return;
   }
   vazio.style.display = 'none';
 
-  lista.innerHTML = itens.map((i) => `
-    <div class="item">
-      ${i.capa
-        ? `<img class="item-capa" src="${i.capa}" alt="" loading="lazy">`
-        : `<div class="item-capa-vazia">📖</div>`}
-      <div class="item-corpo">
-        <div class="item-titulo">${i.titulo}</div>
-        ${i.serie ? `<div class="item-serie">${i.serie}</div>` : ''}
-        <div class="item-autor">${i.autor}</div>
-        ${i.avaliacao ? `<div class="item-estrelas">${'⭐'.repeat(i.avaliacao)}</div>` : ''}
-        <div class="item-rodape">
-          <span class="item-id">${i.id}</span>
-          ${i.status ? `<span class="status-badge ${i.status}">${STATUS_LABELS[i.status]}</span>` : ''}
-          <span>${MIDIAS[i.midia] || i.midia}</span>
-        </div>
-      </div>
+  estante.innerHTML = itens.map((i) => `
+    <div class="livro" data-id="${i.id}">
+      ${miniaturaHtml(i)}
+      ${i.status ? `<span class="status-ponto ${i.status}"></span>` : ''}
+      ${i.avaliacao ? `<div class="livro-estrelas">${'★'.repeat(i.avaliacao)}</div>` : ''}
     </div>
   `).join('');
+
+  estante.querySelectorAll('.livro').forEach((el) => {
+    el.addEventListener('click', () => {
+      const item = acervo.find((i) => i.id === el.dataset.id);
+      if (item) abrirModal(item);
+    });
+  });
 }
+
+// ---------- Modal de detalhe ----------
+function abrirModal(item) {
+  document.getElementById('modalCapaWrap').innerHTML = item.capa
+    ? `<img src="${item.capa}" alt="">`
+    : `<div class="livro-lombada" style="background:${corLombada(item.id)}"><span class="livro-lombada-texto">${item.titulo}</span></div>`;
+
+  document.getElementById('modalSerie').textContent = item.serie || '';
+  document.getElementById('modalSerie').style.display = item.serie ? 'block' : 'none';
+  document.getElementById('modalTitulo').textContent = item.titulo;
+  document.getElementById('modalAutor').textContent = item.autor;
+
+  const estrelas = document.getElementById('modalEstrelas');
+  estrelas.textContent = item.avaliacao ? '★'.repeat(item.avaliacao) + '☆'.repeat(5 - item.avaliacao) : '';
+  estrelas.style.display = item.avaliacao ? 'block' : 'none';
+
+  const statusEl = document.getElementById('modalStatus');
+  statusEl.textContent = item.status ? STATUS_LABELS[item.status] : '';
+  statusEl.style.display = item.status ? 'inline-block' : 'none';
+
+  document.getElementById('modalMidia').textContent = MIDIAS[item.midia] || item.midia;
+  document.getElementById('modalId').textContent = item.id;
+
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function fecharModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
+document.getElementById('modalFechar').addEventListener('click', fecharModal);
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modalOverlay') fecharModal();
+});
 
 document.getElementById('busca').addEventListener('input', aplicarFiltros);
 
