@@ -23,8 +23,9 @@
       "status": "quero_ler",
       "avaliacao": null,
       "dataConclusao": null,
-      "capaUrl": null,
-      "capa": null
+      "capaUrl": "https://m.media-amazon.com/images/I/81hCVEC0ExL._SY466_.jpg",
+      "capa": "https://m.media-amazon.com/images/I/81hCVEC0ExL._SY466_.jpg",
+      "capaTipo": "url"
     }
   ]
 }
