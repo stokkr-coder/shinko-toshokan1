@@ -16,17 +16,22 @@
     <button class="aba-btn ativa" data-aba="cadastro">Cadastro manual</button>
     <button class="aba-btn" data-aba="importar">Importar planilha</button>
     <button class="aba-btn" data-aba="acervo">Acervo (<span id="totalItens">0</span>)</button>
+    <button class="aba-btn" data-aba="meta">🎯 Meta de leitura</button>
   </nav>
 
   <main>
     <section id="aba-cadastro" class="aba-conteudo ativa">
-      <h2>Cadastro manual</h2>
+      <h2 id="tituloFormCadastro">Cadastro manual</h2>
+      <div id="avisoEdicao" class="aviso-edicao" style="display:none;">
+        ✏️ Editando <code id="idEmEdicao"></code> —
+        <button id="btnCancelarEdicao" class="btn-link" type="button">cancelar edição</button>
+      </div>
 
-      <div class="campo">
+      <div class="campo" id="blocoInterpretar">
         <label for="entradaBruta">Cole a referência (formato livre) e clique em "Interpretar":</label>
         <div class="linha">
           <input type="text" id="entradaBruta" placeholder="Ex: O Peregrino - John Bunyan">
-          <button id="btnInterpretar" class="btn">🔍 Interpretar</button>
+          <button id="btnInterpretar" class="btn" type="button">🔍 Interpretar</button>
         </div>
         <small id="confiancaAviso" class="aviso"></small>
       </div>
@@ -63,16 +68,63 @@
           <input type="text" id="serie">
         </div>
 
+        <h3 class="subtitulo-form">📖 Status de leitura <small>(estilo Goodreads — tudo opcional)</small></h3>
+        <div class="grid-3">
+          <div class="campo">
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="">— Não classificado</option>
+              <option value="quero_ler">📌 Quero ler</option>
+              <option value="lendo">📖 Lendo agora</option>
+              <option value="lido">✅ Lido</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="avaliacao">Avaliação</label>
+            <select id="avaliacao">
+              <option value="">— Sem nota</option>
+              <option value="1">⭐</option>
+              <option value="2">⭐⭐</option>
+              <option value="3">⭐⭐⭐</option>
+              <option value="4">⭐⭐⭐⭐</option>
+              <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="dataConclusao">Concluído em <small>(se lido)</small></label>
+            <input type="date" id="dataConclusao">
+          </div>
+        </div>
+
+        <h3 class="subtitulo-form">🖼️ Capa</h3>
+        <div class="campo">
+          <label for="capaUrl">Link de uma imagem na web <small>(opcional)</small></label>
+          <input type="url" id="capaUrl" placeholder="https://...">
+        </div>
+
+        <div id="blocoCapaArquivo" style="display:none;">
+          <div class="campo">
+            <label for="capaArquivo">Ou envie um arquivo de imagem <small>(fica salvo no próprio repositório)</small></label>
+            <input type="file" id="capaArquivo" accept="image/jpeg,image/png,image/webp,image/gif">
+          </div>
+          <div id="previewCapaWrap" style="display:none;">
+            <img id="previewCapa" alt="Capa atual">
+            <button id="btnRemoverCapa" class="btn btn-excluir" type="button">🗑️ Remover capa</button>
+          </div>
+        </div>
+        <p id="avisoCapaSoEdicao" class="aviso">💡 Depois de cadastrar, abra o item na aba "Acervo" e clique em "editar" para enviar um arquivo de capa (aqui no cadastro inicial só dá pra colar um link).</p>
+
         <div class="prevideia" id="previaId"></div>
 
-        <button type="submit" class="btn btn-primario">➕ Adicionar ao acervo</button>
+        <button type="submit" id="btnSubmitCadastro" class="btn btn-primario">➕ Adicionar ao acervo</button>
       </form>
       <div id="msgCadastro" class="mensagem"></div>
     </section>
 
     <section id="aba-importar" class="aba-conteudo">
       <h2>Importar planilha (.xlsx)</h2>
-      <p>A planilha pode ter colunas <code>Titulo | Autor | Midia | Genero | Volume | Serie</code>,
+      <p>A planilha pode ter colunas <code>Titulo | Autor | Midia | Genero | Volume | Serie | Status | Avaliacao | DataConclusao | Capa</code>
+      (todas menos Titulo/Autor/Midia/Genero são opcionais — <code>Status</code> aceita <code>quero_ler</code>, <code>lendo</code> ou <code>lido</code>; <code>Capa</code> é um link de imagem),
       ou uma única coluna <code>Entrada</code> com o texto bruto (o mesmo interpretador do cadastro manual será usado linha a linha).</p>
       <input type="file" id="arquivoImport" accept=".xlsx">
       <button id="btnImportar" class="btn btn-primario">📥 Importar</button>
@@ -84,8 +136,31 @@
       <input type="text" id="filtroAcervo" placeholder="Filtrar por título, autor ou ID...">
       <table id="tabelaAcervo">
         <thead>
-          <tr><th>ID</th><th>Título</th><th>Autor</th><th>Série</th><th></th></tr>
+          <tr><th></th><th>ID</th><th>Título</th><th>Autor</th><th>Status</th><th></th></tr>
         </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="aba-meta" class="aba-conteudo">
+      <h2>🎯 Meta de leitura anual</h2>
+      <p>Defina quantos itens você quer terminar de ler em cada ano — o site do celular mostra uma barra de progresso com base nos itens marcados como "Lido" com data de conclusão naquele ano.</p>
+      <form id="formMeta">
+        <div class="grid-2">
+          <div class="campo">
+            <label for="anoMeta">Ano</label>
+            <input type="number" id="anoMeta" min="2000" max="2100">
+          </div>
+          <div class="campo">
+            <label for="quantidadeMeta">Meta (quantidade de itens)</label>
+            <input type="number" id="quantidadeMeta" min="0">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primario">💾 Salvar meta</button>
+      </form>
+      <div id="msgMeta" class="mensagem"></div>
+      <table id="tabelaMetas">
+        <thead><tr><th>Ano</th><th>Meta</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>

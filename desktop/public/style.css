@@ -103,6 +103,61 @@ th { color: #667; font-weight: 600; }
 
 #filtroAcervo { width: 100%; margin-bottom: 8px; }
 
+.subtitulo-form {
+  margin: 22px 0 10px;
+  font-size: 0.95rem;
+  color: var(--azul-escuro);
+  border-top: 1px solid var(--borda);
+  padding-top: 16px;
+}
+.subtitulo-form small { font-weight: 400; color: #889; }
+
+.aviso-edicao {
+  background: #fff4e0;
+  border: 1px solid #f0c987;
+  color: #7a5716;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 0.88rem;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--azul);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.88rem;
+  padding: 0;
+}
+
+.btn-excluir { border-color: var(--vermelho); color: var(--vermelho); background: white; }
+.btn-excluir:hover { background: #fdeded; }
+
+#previewCapaWrap { display: flex; align-items: center; gap: 12px; margin: 8px 0 14px; }
+#previewCapa { width: 70px; height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid var(--borda); }
+
+.capa-mini {
+  width: 34px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid var(--borda);
+  display: block;
+  background: #eef2f5;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.status-badge.quero_ler { background: #e6eefc; color: #2d5f8a; }
+.status-badge.lendo { background: #fff4d9; color: #8a6a1a; }
+.status-badge.lido { background: #e3f5ea; color: var(--verde); }
+
 @media (max-width: 640px) {
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
 }

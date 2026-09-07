@@ -18,18 +18,22 @@ comics) com o esquema de ID **Shinko**: `ST.[Mídia].[Gênero].[Slug-Vol]`.
 ```
 shinko-toshokan-v2/
 ├── data/
-│   └── acervo.json          ← "banco de dados" (JSON versionado no Git)
-├── lib/                      ← lógica compartilhada (normalização, IDs, parser)
+│   ├── acervo.json           ← "banco de dados" (JSON versionado no Git)
+│   └── meta.json              ← meta de leitura anual
+├── capas/                     ← imagens de capa enviadas por upload
+├── lib/                       ← lógica compartilhada (normalização, IDs, parser)
 │   ├── taxonomia.js
 │   ├── normalizeAutor.js
 │   ├── idShinko.js
 │   ├── parseEntry.js
 │   ├── dataStore.js
+│   ├── metaLeitura.js
 │   └── publicar.js
-├── desktop/                  ← app local (Node + Express), só roda na sua máquina
+├── desktop/                   ← app local (Node + Express), só roda na sua máquina
 │   ├── server.js
-│   └── public/                (formulário, importação, listagem)
-├── index.html, app.js, style.css   ← site estático do celular (raiz do repo)
+│   └── public/                 (formulário, importação, listagem, edição)
+├── index.html, app.js, style.css, manifest.json, icon.svg
+│                               ← site estático do celular (raiz do repo)
 └── package.json
 ```
 
@@ -143,7 +147,32 @@ o interpretador a separar automaticamente "Perry Rhodan - PR1825 - Luta
 por Trieger - Hubert Haensel" em série, volume, título e autor. Adicione
 outras séries suas nessa lista conforme forem aparecendo no acervo.
 
-## 7. Limitações conhecidas
+## 7. Novidades: capa, status de leitura e meta anual
+
+- **Capa**: no cadastro inicial você pode colar um link de imagem (`capaUrl`).
+  Depois de criado, abra o item na aba **Acervo → ✏️ editar** para enviar
+  um arquivo de capa (fica salvo em `capas/ID.jpg` no próprio repositório
+  — por isso só é possível depois que o item já tem um ID). Formatos
+  aceitos: JPG, PNG, WEBP, GIF, até 6MB.
+- **Status de leitura**: cada item pode ser marcado como *Quero ler*,
+  *Lendo* ou *Lido*, com nota de 1 a 5 estrelas e data de conclusão. O site
+  do celular mostra chips pra filtrar por status.
+- **Meta de leitura anual**: aba **🎯 Meta de leitura** no desktop — defina
+  quantos itens você quer terminar no ano. O celular calcula automaticamente
+  quantos itens com status "Lido" têm `dataConclusao` naquele ano e mostra
+  uma barra de progresso, estilo o Reading Challenge do Goodreads.
+- **Correção de cadastro**: botão ✏️ na aba Acervo reabre o formulário
+  preenchido — altere o que precisar e clique em "Salvar alterações".
+- **Tela de abertura**: o site do celular mostra uma splash screen breve
+  (ícone + nome do app) antes do acervo carregar. Também inclui um
+  `manifest.json` e ícone, então ao "Adicionar à tela inicial" o app abre
+  com ícone e nome próprios, sem a barra do navegador.
+
+Todos esses dados extras (`status`, `avaliacao`, `dataConclusao`, `capa`)
+também podem vir na planilha de importação em lote — veja as colunas
+aceitas na aba "Importar planilha" do app.
+
+## 9. Limitações conhecidas
 
 - O parser de texto livre é heurístico — formatos ambíguos (ex:
   "Título - Autor" vs "Autor - Título" quando ambos têm poucas palavras)
