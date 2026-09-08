@@ -178,18 +178,28 @@ Todos esses dados extras (`status`, `avaliacao`, `dataConclusao`, `capa`)
 também podem vir na planilha de importação em lote — veja as colunas
 aceitas na aba "Importar planilha" do app.
 
-## 8. Visual do celular: estante de madeira
+## 8. Visual do celular: estante + dashboard
 
-O site do celular renderiza os itens como uma estante de verdade: livros
-com capa aparecem com a imagem; livros sem capa ganham uma "lombada"
-colorida com o título na vertical (a cor é sempre a mesma pra um mesmo
-item, escolhida automaticamente a partir do ID). Toque em qualquer livro
-pra abrir os detalhes (autor, série, status, estrelas, ID). Isso usa a
-fonte Google Fonts "Fraunces" via link no `index.html` — precisa de
-internet no celular pra carregar (comum, já que o próprio site depende de
-internet). Se quiser mudar as cores da estante (madeira, latão, verde,
-vinho), estão todas centralizadas no topo do `style.css`, nas variáveis
-`:root`.
+O site do celular mostra um painel de estatísticas no topo (vira coluna
+lateral fixa quando a tela é larga, como tablet ou computador): total de
+itens, quantos foram lidos, total de páginas lidas, e um resumo por
+gênero e por mídia com mini barras. Abaixo, os itens aparecem como uma
+estante — capas quadradas quando têm imagem; sem capa, ganham uma
+"lombada" colorida com o título na vertical (a cor é sempre a mesma pra
+um mesmo item). Toque em qualquer livro pra abrir os detalhes.
+
+A paleta de cores fica toda centralizada no topo do `style.css`, nas
+variáveis `:root` (`--azul-ardosia`, `--verde-salvia`, `--creme`,
+`--areia`, `--terracota`) — mude ali se quiser ajustar os tons.
+
+O campo **Páginas** (opcional, no cadastro manual ou na planilha de
+importação) alimenta o "páginas lidas" do dashboard — some as páginas de
+todo item marcado como "Lido". Sem esse campo preenchido, o item
+simplesmente não entra na conta.
+
+Isso usa a fonte Google Fonts "Fraunces" via link no `index.html` —
+precisa de internet no celular pra carregar (comum, já que o próprio
+site depende de internet).
 
 ## 9. Limitações conhecidas
 

@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#241a12"/>
+  <rect width="512" height="512" rx="96" fill="#425F70"/>
   <g transform="translate(106,140)">
-    <rect x="0" y="0" width="66" height="210" rx="3" fill="#6b2d2d"/>
-    <rect x="74" y="0" width="66" height="210" rx="3" fill="#2d4a5e"/>
-    <rect x="148" y="0" width="66" height="210" rx="3" fill="#3f5c3f"/>
-    <rect x="222" y="0" width="66" height="210" rx="3" fill="#5c4a2d"/>
-    <rect x="-14" y="214" width="316" height="20" rx="3" fill="#4b3320"/>
-    <rect x="-14" y="214" width="316" height="5" fill="#8a6239"/>
+    <rect x="0" y="0" width="66" height="210" rx="3" fill="#5F9891"/>
+    <rect x="74" y="0" width="66" height="210" rx="3" fill="#D1CEB1"/>
+    <rect x="148" y="0" width="66" height="210" rx="3" fill="#D9BD91"/>
+    <rect x="222" y="0" width="66" height="210" rx="3" fill="#9C7870"/>
+    <rect x="-14" y="214" width="316" height="20" rx="3" fill="#D9BD91"/>
+    <rect x="-14" y="214" width="316" height="5" fill="#e8d3ab"/>
   </g>
 </svg>

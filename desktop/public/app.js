@@ -105,6 +105,7 @@ el('formCadastro').addEventListener('submit', async (e) => {
     genero: el('genero').value,
     volume: el('volume').value === '' ? null : Number(el('volume').value),
     serie: el('serie').value.trim() || null,
+    paginas: el('paginas').value || null,
     status: el('status').value || null,
     avaliacao: el('avaliacao').value || null,
     dataConclusao: el('dataConclusao').value || null,
@@ -171,6 +172,7 @@ function entrarModoEdicao(item) {
   el('autorBruto').placeholder = `Atual: ${item.autor} — deixe em branco para manter`;
   el('autorBruto').required = false;
   el('serie').value = item.serie || '';
+  el('paginas').value = item.paginas || '';
   el('volume').value = item.volume ?? '';
   el('status').value = item.status || '';
   el('avaliacao').value = item.avaliacao || '';

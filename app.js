@@ -7,12 +7,23 @@ const MIDIAS = {
   '1C': 'Comics/HQs',
 };
 
+// Nomes curtos de gênero, só para exibição no dashboard (mesmos códigos de
+// lib/taxonomia.js no projeto desktop, resumidos).
+const GENEROS_NOMES = {
+  '01': 'Patrística', '02': 'Escolástica', '03': 'Apologética Católica',
+  '04': 'Sist. Reformada', '05': 'Puritanismo', '06': 'Apologética Prot.', '07': 'Estudos Bíblicos',
+  '30': 'Terror/Horror', '34': 'Apocalíptico', '35': 'Thriller Cristão',
+  '40': 'Sci-Fi', '41': 'Isekai/LN Militar', '42': 'Perry Rhodan', '43': 'Star Trek',
+  '44': 'Star Wars', '45': 'Doctor Who', '46': 'Babylon 5', '47': 'Battlestar Galactica',
+  '48': 'Univ. Expandidos', '49': 'Distopia/Steampunk', '51': 'Fantasia Épica',
+  '55': 'Ficção Cristã', '60': 'Drama/Slice of Life', '65': 'Cultivo/Wuxia',
+  '70': 'Super-Heróis', '75': 'Mistério', '80': 'Humor/Sátira',
+};
+
 const STATUS_LABELS = { quero_ler: '📌 Quero ler', lendo: '📖 Lendo', lido: '✅ Lido' };
 
-// Paleta de "encadernação" para lombadas sem capa — tons de couro/tecido que
-// combinam com a madeira da estante. A cor é escolhida de forma determinística
-// a partir do ID, então o mesmo livro sempre cai na mesma cor.
-const CORES_LOMBADA = ['#6b2d2d', '#2d4a5e', '#3f5c3f', '#5c4a2d', '#4a2d5c', '#2d5c56', '#6b4423', '#3d3d5c'];
+// Paleta de lombada (livros sem capa) — variações derivadas da paleta principal.
+const CORES_LOMBADA = ['#425F70', '#5F9891', '#9C7870', '#7A9182', '#6B5A4A', '#364A57', '#4F7A74', '#7C5C56'];
 
 function corLombada(id) {
   let hash = 0;
@@ -43,9 +54,54 @@ async function iniciar() {
   }
 
   document.getElementById('contagem').textContent = `${acervo.length} item(ns) na estante`;
+  montarDashboard();
   montarChipsStatus();
   montarChipsMidia();
   renderizar(acervo);
+}
+
+// ---------- Dashboard ----------
+function montarDashboard() {
+  const total = acervo.length;
+  const lidos = acervo.filter((i) => i.status === 'lido');
+  const paginasLidas = lidos.reduce((soma, i) => soma + (Number(i.paginas) || 0), 0);
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statLidos').textContent = lidos.length;
+  document.getElementById('statPaginas').textContent = paginasLidas.toLocaleString('pt-BR');
+
+  renderizarBarras('barrasGenero', contarPor(acervo, 'genero', GENEROS_NOMES), 'genero', 6);
+  renderizarBarras('barrasMidia', contarPor(acervo, 'midia', MIDIAS), 'midia', 6);
+}
+
+function contarPor(itens, campo, nomes) {
+  const contagem = {};
+  itens.forEach((i) => {
+    const chave = i[campo];
+    if (!chave) return;
+    contagem[chave] = (contagem[chave] || 0) + 1;
+  });
+  return Object.entries(contagem)
+    .map(([codigo, quantidade]) => ({ codigo, nome: nomes[codigo] || codigo, quantidade }))
+    .sort((a, b) => b.quantidade - a.quantidade);
+}
+
+function renderizarBarras(idContainer, dados, classeCor, limite) {
+  const container = document.getElementById(idContainer);
+  if (dados.length === 0) {
+    container.innerHTML = '<p class="barra-vazia">Sem dados ainda.</p>';
+    return;
+  }
+  const lista = dados.slice(0, limite);
+  const maior = lista[0].quantidade;
+
+  container.innerHTML = lista.map((d) => `
+    <div class="barra-linha">
+      <span class="barra-label" title="${d.nome}">${d.nome}</span>
+      <span class="barra-trilha"><span class="barra-preenchida ${classeCor}" style="width:${Math.max(6, Math.round((d.quantidade / maior) * 100))}%"></span></span>
+      <span class="barra-valor">${d.quantidade}</span>
+    </div>
+  `).join('');
 }
 
 function montarMetaLeitura(metas) {
@@ -62,6 +118,7 @@ function montarMetaLeitura(metas) {
   document.getElementById('metaLeitura').style.display = 'block';
 }
 
+// ---------- Filtros ----------
 function montarChipsStatus() {
   const statusPresentes = [...new Set(acervo.map((i) => i.status).filter(Boolean))];
   if (statusPresentes.length === 0) return;
@@ -117,6 +174,7 @@ function aplicarFiltros() {
   renderizar(resultado);
 }
 
+// ---------- Estante ----------
 function miniaturaHtml(item) {
   if (item.capa) {
     return `<img class="livro-capa" src="${item.capa}" alt="" loading="lazy">`;

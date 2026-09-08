@@ -63,9 +63,15 @@
           </div>
         </div>
 
-        <div class="campo">
-          <label for="serie">Série <small>(opcional)</small></label>
-          <input type="text" id="serie">
+        <div class="grid-2">
+          <div class="campo">
+            <label for="serie">Série <small>(opcional)</small></label>
+            <input type="text" id="serie">
+          </div>
+          <div class="campo">
+            <label for="paginas">Páginas <small>(opcional — usado no dashboard)</small></label>
+            <input type="number" id="paginas" min="0">
+          </div>
         </div>
 
         <h3 class="subtitulo-form">📖 Status de leitura <small>(estilo Goodreads — tudo opcional)</small></h3>
@@ -123,7 +129,7 @@
 
     <section id="aba-importar" class="aba-conteudo">
       <h2>Importar planilha (.xlsx)</h2>
-      <p>A planilha pode ter colunas <code>Titulo | Autor | Midia | Genero | Volume | Serie | Status | Avaliacao | DataConclusao | Capa</code>
+      <p>A planilha pode ter colunas <code>Titulo | Autor | Midia | Genero | Volume | Serie | Status | Avaliacao | DataConclusao | Capa | Paginas</code>
       (todas menos Titulo/Autor/Midia/Genero são opcionais — <code>Status</code> aceita <code>quero_ler</code>, <code>lendo</code> ou <code>lido</code>; <code>Capa</code> é um link de imagem),
       ou uma única coluna <code>Entrada</code> com o texto bruto (o mesmo interpretador do cadastro manual será usado linha a linha).</p>
       <input type="file" id="arquivoImport" accept=".xlsx">

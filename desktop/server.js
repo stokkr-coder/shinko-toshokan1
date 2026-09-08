@@ -48,7 +48,7 @@ app.post('/api/itens', (req, res) => {
   try {
     const {
       titulo, autorBruto, midia, genero, volume, serie,
-      status, avaliacao, dataInicio, dataConclusao, capaUrl,
+      status, avaliacao, dataInicio, dataConclusao, capaUrl, paginas,
       extras,
     } = req.body;
 
@@ -79,6 +79,7 @@ app.post('/api/itens', (req, res) => {
       volume: volumeFinal,
       status: status || null,
       avaliacao: avaliacao ? Number(avaliacao) : null,
+      paginas: paginas ? Number(paginas) : null,
       dataInicio: dataInicio || null,
       dataConclusao: dataConclusao || null,
       capa: capaUrl || null,
@@ -146,6 +147,7 @@ app.post('/api/import', upload.single('arquivo'), async (req, res) => {
     const idxAvaliacao = cabecalho.indexOf('avaliacao') !== -1 ? cabecalho.indexOf('avaliacao') : cabecalho.indexOf('avaliação');
     const idxDataConclusao = cabecalho.indexOf('dataconclusao') !== -1 ? cabecalho.indexOf('dataconclusao') : cabecalho.indexOf('data conclusão');
     const idxCapaUrl = cabecalho.indexOf('capa') !== -1 ? cabecalho.indexOf('capa') : cabecalho.indexOf('capaurl');
+    const idxPaginas = cabecalho.indexOf('paginas') !== -1 ? cabecalho.indexOf('paginas') : cabecalho.indexOf('páginas');
 
     const resultados = { inseridos: [], erros: [] };
     const acervo = store.lerAcervo();
@@ -201,6 +203,7 @@ app.post('/api/import', upload.single('arquivo'), async (req, res) => {
           status: (idxStatus !== -1 && valores[idxStatus] && STATUS_VALIDOS.includes(String(valores[idxStatus]).trim()))
             ? String(valores[idxStatus]).trim() : null,
           avaliacao: (idxAvaliacao !== -1 && valores[idxAvaliacao]) ? Number(valores[idxAvaliacao]) : null,
+          paginas: (idxPaginas !== -1 && valores[idxPaginas]) ? Number(valores[idxPaginas]) : null,
           dataInicio: null,
           dataConclusao: (idxDataConclusao !== -1 && valores[idxDataConclusao]) ? String(valores[idxDataConclusao]).trim() : null,
           capa: (idxCapaUrl !== -1 && valores[idxCapaUrl]) ? String(valores[idxCapaUrl]).trim() : null,

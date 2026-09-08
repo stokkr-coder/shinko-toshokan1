@@ -1,18 +1,17 @@
 :root {
-  --madeira-escura: #241a12;
-  --madeira: #4b3320;
-  --madeira-clara: #8a6239;
-  --papel: #ecdfc4;
-  --tinta: #2a1d12;
-  --tinta-clara: #f5ecd9;
-  --latao: #c9a227;
-  --latao-claro: #e0bd53;
-  --verde-couro: #47624a;
-  --vinho: #8c3a3a;
-  --azul-acervo: #3d5a73;
+  --azul-ardosia: #425F70;
+  --verde-salvia: #5F9891;
+  --creme: #D1CEB1;
+  --areia: #D9BD91;
+  --terracota: #9C7870;
 
-  --altura-livro: 168px;
-  --vao-prateleira: 34px;
+  --fundo: #E8E5D6;
+  --papel: #FBF9F3;
+  --tinta: #33474F;
+  --tinta-clara: #6B7D82;
+
+  --altura-livro: 96px;
+  --vao-prateleira: 30px;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -20,18 +19,18 @@
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--madeira-escura);
-  color: var(--tinta-clara);
+  background: var(--fundo);
+  color: var(--tinta);
   padding-bottom: 48px;
 }
 
-h1, h2, .fonte-display { font-family: 'Fraunces', Georgia, serif; }
+h1, h2, h3, .fonte-display { font-family: 'Fraunces', Georgia, serif; }
 
 /* ---------- Splash screen ---------- */
 #splash {
   position: fixed;
   inset: 0;
-  background: var(--madeira-escura);
+  background: var(--azul-ardosia);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,11 +42,11 @@ h1, h2, .fonte-display { font-family: 'Fraunces', Georgia, serif; }
 #splashIcone {
   font-size: 3.4rem;
   margin-bottom: 8px;
-  color: var(--latao);
+  color: var(--creme);
   animation: splashFlutua 1.8s ease-in-out infinite;
 }
-#splashTitulo { font-family: 'Fraunces', Georgia, serif; color: var(--tinta-clara); font-size: 1.7rem; font-weight: 600; }
-#splashSub { color: var(--latao-claro); font-size: 0.85rem; margin-top: 4px; font-style: italic; }
+#splashTitulo { font-family: 'Fraunces', Georgia, serif; color: #fff; font-size: 1.7rem; font-weight: 600; }
+#splashSub { color: var(--areia); font-size: 0.85rem; margin-top: 4px; font-style: italic; }
 
 @keyframes splashEntra {
   from { opacity: 0; transform: translateY(10px); }
@@ -63,58 +62,118 @@ h1, h2, .fonte-display { font-family: 'Fraunces', Georgia, serif; }
 
 /* ---------- Header ---------- */
 header {
-  padding: 22px 18px 16px;
-  border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+  background: var(--azul-ardosia);
+  padding: 22px 18px 18px;
 }
 
-header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-clara); }
-.subtitulo { margin: 4px 0 0; font-size: 0.82rem; color: var(--latao-claro); }
+header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: #fff; }
+.subtitulo { margin: 4px 0 0; font-size: 0.82rem; color: var(--areia); }
 
-/* ---------- Meta de leitura (cartão de biblioteca) ---------- */
+/* ---------- Layout: dashboard + conteúdo ---------- */
+.layout {
+  display: block;
+  padding: 16px 16px 0;
+}
+
+.dashboard {
+  background: var(--papel);
+  border-radius: 8px;
+  padding: 18px 18px 16px;
+  border-top: 3px solid var(--azul-ardosia);
+  margin-bottom: 18px;
+}
+
+.dashboard-titulo {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  color: var(--azul-ardosia);
+  font-weight: 600;
+}
+
+.dashboard-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.dashboard-numero {
+  flex: 1;
+  min-width: 78px;
+  display: flex;
+  flex-direction: column;
+}
+
+.numero {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--azul-ardosia);
+  line-height: 1.1;
+}
+.numero-legenda { font-size: 0.72rem; color: var(--tinta-clara); margin-top: 2px; }
+
+.dashboard-bloco { margin-top: 16px; }
+.dashboard-subtitulo {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--tinta-clara);
+  text-transform: none;
+}
+
+.barras { display: flex; flex-direction: column; gap: 7px; }
+.barra-vazia { font-size: 0.76rem; color: var(--tinta-clara); font-style: italic; margin: 0; }
+.barra-linha { display: flex; align-items: center; gap: 8px; font-size: 0.76rem; }
+.barra-label { flex: 1; min-width: 0; color: var(--tinta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.barra-trilha { flex: 0 0 60px; height: 6px; background: var(--creme); border-radius: 3px; overflow: hidden; }
+.barra-preenchida { height: 100%; border-radius: 3px; }
+.barra-preenchida.genero { background: var(--verde-salvia); }
+.barra-preenchida.midia { background: var(--terracota); }
+.barra-valor { flex: 0 0 18px; text-align: right; color: var(--tinta-clara); font-variant-numeric: tabular-nums; }
+
+/* ---------- Meta de leitura ---------- */
 .meta-leitura {
-  margin: 14px 18px 0;
   padding: 12px 14px;
-  border: 1px solid rgba(201, 162, 39, 0.35);
-  border-radius: 4px;
-  background: rgba(201, 162, 39, 0.06);
+  border-radius: 6px;
+  background: var(--creme);
+  margin-bottom: 4px;
 }
 .meta-topo {
   display: flex;
   justify-content: space-between;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   margin-bottom: 7px;
-  color: var(--tinta-clara);
+  color: var(--tinta);
 }
-#metaPorcentagem { font-weight: 700; color: var(--latao-claro); font-family: 'Fraunces', serif; }
+#metaPorcentagem { font-weight: 700; color: var(--azul-ardosia); font-family: 'Fraunces', serif; }
 .meta-barra {
-  background: rgba(0,0,0,0.35);
-  border-radius: 2px;
+  background: rgba(66, 95, 112, 0.18);
+  border-radius: 3px;
   height: 6px;
   overflow: hidden;
 }
 .meta-barra-preenchida {
-  background: linear-gradient(90deg, var(--latao), var(--latao-claro));
+  background: var(--azul-ardosia);
   height: 100%;
   transition: width 0.4s ease;
 }
 
 /* ---------- Filtros ---------- */
-.filtros {
-  padding: 14px 18px 4px;
-}
+.filtros { padding-bottom: 4px; }
 
 #busca {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid rgba(201, 162, 39, 0.3);
-  border-radius: 3px;
+  border: 1px solid rgba(66, 95, 112, 0.25);
+  border-radius: 6px;
   font-size: 0.95rem;
-  background: rgba(0,0,0,0.2);
-  color: var(--tinta-clara);
+  background: var(--papel);
+  color: var(--tinta);
   font-family: 'Inter', sans-serif;
 }
-#busca::placeholder { color: rgba(245, 236, 217, 0.45); }
-#busca:focus { outline: 2px solid var(--latao); outline-offset: 1px; }
+#busca::placeholder { color: var(--tinta-clara); }
+#busca:focus { outline: 2px solid var(--azul-ardosia); outline-offset: 1px; }
 
 .chips {
   display: flex;
@@ -128,59 +187,60 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
   flex-shrink: 0;
   padding: 5px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(201, 162, 39, 0.4);
-  background: transparent;
-  color: var(--latao-claro);
+  border: 1px solid rgba(66, 95, 112, 0.3);
+  background: var(--papel);
+  color: var(--azul-ardosia);
   font-size: 0.76rem;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
   white-space: nowrap;
 }
 
-.chip.ativo { background: var(--latao); color: var(--madeira-escura); border-color: var(--latao); font-weight: 600; }
+.chip.ativo { background: var(--azul-ardosia); color: #fff; border-color: var(--azul-ardosia); font-weight: 600; }
 
 /* ---------- A estante ---------- */
 .estante-parede {
-  margin-top: 18px;
-  padding: 0 12px 8px;
+  margin-top: 16px;
+  padding-bottom: 8px;
 }
 
 .estante-grade {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  grid-template-columns: repeat(auto-fill, var(--altura-livro));
+  justify-content: center;
   column-gap: 12px;
   row-gap: var(--vao-prateleira);
   grid-auto-rows: var(--altura-livro);
-  padding: 0 4px;
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
     transparent var(--altura-livro),
-    rgba(0,0,0,0.4) var(--altura-livro),
-    rgba(0,0,0,0.4) calc(var(--altura-livro) + 4px),
-    var(--madeira-clara) calc(var(--altura-livro) + 4px),
-    var(--madeira-clara) calc(var(--altura-livro) + 8px),
-    var(--madeira) calc(var(--altura-livro) + 8px),
-    var(--madeira) calc(var(--altura-livro) + 26px),
-    transparent calc(var(--altura-livro) + 26px),
+    rgba(51, 71, 79, 0.28) var(--altura-livro),
+    rgba(51, 71, 79, 0.28) calc(var(--altura-livro) + 4px),
+    var(--areia) calc(var(--altura-livro) + 4px),
+    var(--areia) calc(var(--altura-livro) + 8px),
+    var(--terracota) calc(var(--altura-livro) + 8px),
+    var(--terracota) calc(var(--altura-livro) + 22px),
+    transparent calc(var(--altura-livro) + 22px),
     transparent calc(var(--altura-livro) + var(--vao-prateleira))
   );
   background-size: 100% calc(var(--altura-livro) + var(--vao-prateleira));
   background-repeat: repeat-y;
 }
 
-/* ---------- Livro (capa ou lombada) ---------- */
+/* ---------- Livro (capa quadrada ou lombada) ---------- */
 .livro {
   position: relative;
-  height: 100%;
-  border-radius: 2px 2px 1px 1px;
+  width: var(--altura-livro);
+  height: var(--altura-livro);
+  border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 6px rgba(51, 71, 79, 0.35), inset 0 0 0 1px rgba(51, 71, 79, 0.12);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   background: var(--papel);
 }
-.livro:active { transform: translateY(-5px) scale(1.04); box-shadow: 0 8px 14px rgba(0,0,0,0.5); }
+.livro:active { transform: translateY(-4px) scale(1.05); box-shadow: 0 8px 14px rgba(51, 71, 79, 0.4); }
 
 .livro-capa { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -190,17 +250,17 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 5px;
+  padding: 8px 4px;
 }
 .livro-lombada-texto {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 0.74rem;
+  font-size: 0.66rem;
   font-weight: 500;
-  line-height: 1.25;
-  color: rgba(255,255,255,0.92);
-  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  line-height: 1.2;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.25);
   max-height: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -211,35 +271,35 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  box-shadow: 0 0 0 1.5px rgba(0,0,0,0.45);
+  box-shadow: 0 0 0 1.5px rgba(51, 71, 79, 0.5);
 }
-.status-ponto.lido { background: var(--verde-couro); }
-.status-ponto.lendo { background: var(--vinho); }
-.status-ponto.quero_ler { background: var(--azul-acervo); }
+.status-ponto.lido { background: var(--verde-salvia); }
+.status-ponto.lendo { background: var(--terracota); }
+.status-ponto.quero_ler { background: var(--azul-ardosia); }
 
 .livro-estrelas {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 3px 4px 2px;
-  background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
-  font-size: 0.6rem;
-  color: var(--latao-claro);
+  padding: 2px 4px 2px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  font-size: 0.55rem;
+  color: var(--areia);
   text-align: center;
   letter-spacing: 1px;
 }
 
-.vazio { text-align: center; padding: 50px 20px; color: rgba(245,236,217,0.55); font-family: 'Fraunces', serif; font-style: italic; }
+.vazio { text-align: center; padding: 50px 20px; color: var(--tinta-clara); font-family: 'Fraunces', serif; font-style: italic; }
 
 /* ---------- Modal de detalhe ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 7, 4, 0.72);
+  background: rgba(51, 71, 79, 0.55);
   z-index: 50;
   display: flex;
   align-items: flex-end;
@@ -266,7 +326,7 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
   position: absolute;
   top: 12px;
   right: 14px;
-  background: rgba(0,0,0,0.08);
+  background: var(--creme);
   border: none;
   border-radius: 50%;
   width: 30px;
@@ -277,14 +337,14 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
 }
 
 .modal-capa-wrap { display: flex; justify-content: center; margin: 6px 0 16px; }
-.modal-capa-wrap img { width: 128px; height: 184px; object-fit: cover; border-radius: 4px; box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
-.modal-capa-wrap .livro-lombada { width: 128px; height: 184px; border-radius: 4px; box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+.modal-capa-wrap img { width: 150px; height: 150px; object-fit: cover; border-radius: 8px; box-shadow: 0 6px 16px rgba(51, 71, 79, 0.25); }
+.modal-capa-wrap .livro-lombada { width: 150px; height: 150px; border-radius: 8px; box-shadow: 0 6px 16px rgba(51, 71, 79, 0.25); }
 
 .modal-corpo { text-align: center; }
-.modal-serie { margin: 0 0 2px; font-size: 0.8rem; color: #6b5a3f; }
-.modal-titulo { margin: 0 0 4px; font-size: 1.3rem; line-height: 1.25; }
-.modal-autor { margin: 0 0 10px; font-size: 0.95rem; color: #4a3d28; }
-.modal-estrelas { color: var(--latao); font-size: 1.05rem; margin-bottom: 12px; letter-spacing: 2px; }
+.modal-serie { margin: 0 0 2px; font-size: 0.8rem; color: var(--terracota); }
+.modal-titulo { margin: 0 0 4px; font-size: 1.3rem; line-height: 1.25; color: var(--azul-ardosia); }
+.modal-autor { margin: 0 0 10px; font-size: 0.95rem; color: var(--tinta); }
+.modal-estrelas { color: var(--areia); font-size: 1.05rem; margin-bottom: 12px; letter-spacing: 2px; }
 
 .modal-meta {
   display: flex;
@@ -293,18 +353,39 @@ header h1 { margin: 0; font-size: 1.5rem; font-weight: 600; color: var(--tinta-c
   gap: 10px;
   flex-wrap: wrap;
   font-size: 0.78rem;
-  color: #6b5a3f;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  color: var(--tinta-clara);
+  border-top: 1px solid rgba(51, 71, 79, 0.12);
   padding-top: 12px;
 }
 .modal-id { font-family: 'Inter', sans-serif; opacity: 0.7; }
 .status-tag-texto {
   padding: 2px 9px;
   border-radius: 10px;
-  background: rgba(0,0,0,0.07);
+  background: var(--creme);
+  color: var(--azul-ardosia);
   font-weight: 600;
 }
 
-@media (min-width: 640px) {
-  body { max-width: 640px; margin: 0 auto; }
+/* ---------- Layout largo: dashboard vira coluna lateral fixa ---------- */
+@media (min-width: 860px) {
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 22px;
+    align-items: start;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .dashboard {
+    position: sticky;
+    top: 16px;
+    margin-bottom: 0;
+  }
+  header { padding: 26px 24px 20px; }
+  header h1 { font-size: 1.7rem; }
+}
+
+@media (min-width: 860px) and (max-width: 1200px) {
+  body { max-width: none; }
 }
