@@ -3,14 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#425F70">
+<meta name="theme-color" content="#1c2a25">
 <title>Shinko Toshokan</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,72 +16,108 @@
     <div id="splashConteudo">
       <div id="splashIcone">🕮</div>
       <div id="splashTitulo">Shinko Toshokan</div>
-      <div id="splashSub">sua estante pessoal</div>
+      <div id="splashSub">Catálogo do acervo</div>
     </div>
   </div>
 
-  <header>
-    <h1>Shinko Toshokan</h1>
-    <p class="subtitulo" id="contagem">carregando acervo...</p>
-  </header>
-
-  <div class="layout">
-
-    <aside id="dashboard" class="dashboard">
-      <h2 class="dashboard-titulo">Estatísticas</h2>
-
-      <div class="dashboard-numeros">
-        <div class="dashboard-numero">
-          <span class="numero" id="statTotal">0</span>
-          <span class="numero-legenda">itens no acervo</span>
-        </div>
-        <div class="dashboard-numero">
-          <span class="numero" id="statLidos">0</span>
-          <span class="numero-legenda">lidos</span>
-        </div>
-        <div class="dashboard-numero">
-          <span class="numero" id="statPaginas">0</span>
-          <span class="numero-legenda">páginas lidas</span>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-lockup">
+        <span class="brand-mark">🕮</span>
+        <div>
+          <p class="eyebrow">Catálogo</p>
+          <p class="brand-name">Shinko Toshokan</p>
         </div>
       </div>
-
-      <div id="metaLeitura" class="meta-leitura" style="display:none;">
-        <div class="meta-topo">
-          <span id="metaTexto"></span>
-          <span id="metaPorcentagem"></span>
-        </div>
-        <div class="meta-barra"><div id="metaBarraPreenchida" class="meta-barra-preenchida"></div></div>
-      </div>
-
-      <div class="dashboard-bloco">
-        <h3 class="dashboard-subtitulo">Por gênero</h3>
-        <div id="barrasGenero" class="barras"></div>
-      </div>
-
-      <div class="dashboard-bloco">
-        <h3 class="dashboard-subtitulo">Por mídia</h3>
-        <div id="barrasMidia" class="barras"></div>
-      </div>
+      <nav class="side-nav" aria-label="Navegação da biblioteca">
+        <button class="nav-item ativo" data-view="acervo">📚 <span>Acervo</span> <b id="navTotalAcervo">0</b></button>
+        <button class="nav-item" data-view="taxonomia">🗂 <span>Taxonomia</span></button>
+        <button class="nav-item" data-view="leitura">📖 <span>Leitura</span> <b id="navTotalLendo">0</b></button>
+        <button class="nav-item" data-view="quero-ler">🔖 <span>Quero ler</span> <b id="navTotalQuerLer">0</b></button>
+      </nav>
     </aside>
 
-    <div class="conteudo-principal">
-      <div class="filtros">
-        <input type="text" id="busca" placeholder="Buscar por título, autor, série ou ID...">
-        <div class="chips" id="chipsStatus"></div>
-        <div class="chips" id="chipsMidia"></div>
-      </div>
+    <div class="main-board">
 
-      <div class="estante-parede">
-        <div id="estante" class="estante-grade"></div>
-        <div id="vazio" class="vazio" style="display:none;">Nenhum item encontrado nessa prateleira.</div>
-      </div>
+      <!-- ================= ACERVO ================= -->
+      <section id="view-acervo" class="view ativa">
+        <div class="topbar">
+          <p class="eyebrow">Registro geral</p>
+          <h2>Acervo</h2>
+          <p id="contagem">carregando...</p>
+        </div>
+
+        <div class="metrics-strip" id="metricsStrip"></div>
+
+        <div class="record-toolbar">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="busca" placeholder="Buscar por título, autor, série ou ID...">
+          </div>
+          <div class="chips" id="chipsStatus"></div>
+        </div>
+        <div class="chips" id="chipsMidia" style="margin-top:8px;"></div>
+
+        <div class="records-section">
+          <div id="listaAcervo" class="records-list"></div>
+          <div id="vazio" class="vazio-estado" style="display:none;">
+            <strong>Nenhum registro encontrado</strong>
+            Ajuste a busca ou os filtros pra ver outros itens da coleção.
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAXONOMIA ================= -->
+      <section id="view-taxonomia" class="view">
+        <div class="topbar">
+          <p class="eyebrow">Referência</p>
+          <h2>Taxonomia</h2>
+          <p>Códigos de mídia e gênero usados no ID Shinko, com quantos itens do seu acervo usam cada um.</p>
+        </div>
+        <div id="taxonomiaConteudo"></div>
+      </section>
+
+      <!-- ================= LEITURA ================= -->
+      <section id="view-leitura" class="view">
+        <div class="topbar">
+          <p class="eyebrow">Diário</p>
+          <h2>Leitura</h2>
+          <p>O que está em andamento agora, e o histórico do que já foi concluído.</p>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin: 4px 0 10px; color: var(--tinta-suave);">Lendo agora</h3>
+        <div id="lendoAgora"></div>
+        <p id="lendoVazio" class="vazio-estado" style="display:none;"><strong>Nada em andamento</strong>Marque um item como "Lendo" no cadastro pra ele aparecer aqui.</p>
+
+        <div class="reading-timeline">
+          <div class="timeline-heading"><strong>Concluídos</strong></div>
+          <div id="timelineLidos"></div>
+        </div>
+      </section>
+
+      <!-- ================= QUERO LER ================= -->
+      <section id="view-quero-ler" class="view">
+        <div class="topbar">
+          <p class="eyebrow">Fila de prioridade</p>
+          <h2>Quero ler</h2>
+          <p>A ordem é definida no app do desktop — aqui é só consulta.</p>
+        </div>
+        <div id="listaQueroLer" class="records-list"></div>
+        <div id="queroLerVazio" class="vazio-estado" style="display:none;">
+          <strong>Lista vazia</strong>
+          Marque itens como "Quero ler" no cadastro pra eles aparecerem aqui.
+        </div>
+      </section>
+
     </div>
-
   </div>
 
   <div id="modalOverlay" class="modal-overlay" style="display:none;">
     <div class="modal-cartao">
-      <button id="modalFechar" class="modal-fechar" aria-label="Fechar">✕</button>
+      <div class="dialog-topline">
+        <span>FICHA</span>
+        <button id="modalFechar" class="modal-fechar" aria-label="Fechar">✕</button>
+      </div>
       <div id="modalCapaWrap" class="modal-capa-wrap"></div>
       <div class="modal-corpo">
         <p id="modalSerie" class="modal-serie"></p>
@@ -92,7 +125,7 @@
         <p id="modalAutor" class="modal-autor"></p>
         <div id="modalEstrelas" class="modal-estrelas"></div>
         <div class="modal-meta">
-          <span id="modalStatus" class="status-tag-texto"></span>
+          <span id="modalStatus" class="status-tag"></span>
           <span id="modalMidia"></span>
           <span id="modalId" class="modal-id"></span>
         </div>

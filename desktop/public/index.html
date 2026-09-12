@@ -16,6 +16,7 @@
     <button class="aba-btn ativa" data-aba="cadastro">Cadastro manual</button>
     <button class="aba-btn" data-aba="importar">Importar planilha</button>
     <button class="aba-btn" data-aba="acervo">Acervo (<span id="totalItens">0</span>)</button>
+    <button class="aba-btn" data-aba="quero-ler">📌 Quero ler (<span id="totalQueroLer">0</span>)</button>
     <button class="aba-btn" data-aba="meta">🎯 Meta de leitura</button>
   </nav>
 
@@ -146,6 +147,13 @@
         </thead>
         <tbody></tbody>
       </table>
+    </section>
+
+    <section id="aba-quero-ler" class="aba-conteudo">
+      <h2>📌 Quero ler — ordem de prioridade</h2>
+      <p>Essa ordem é o que aparece na lista "Quero ler" do site do celular. Use as setas pra reorganizar — o item do topo é o próximo da fila.</p>
+      <div id="listaQueroLer" class="lista-quero-ler"></div>
+      <p id="queroLerVazio" class="aviso" style="display:none;">Nenhum item marcado como "Quero ler" ainda.</p>
     </section>
 
     <section id="aba-meta" class="aba-conteudo">

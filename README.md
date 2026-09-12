@@ -173,33 +173,48 @@ outras séries suas nessa lista conforme forem aparecendo no acervo.
   (ícone + nome do app) antes do acervo carregar. Também inclui um
   `manifest.json` e ícone, então ao "Adicionar à tela inicial" o app abre
   com ícone e nome próprios, sem a barra do navegador.
+- **Fila "Quero ler"**: aba **📌 Quero ler** no desktop — lista os itens
+  com esse status e deixa reordenar com as setas ▲▼. Essa ordem é o que
+  aparece numerado na tela "Quero ler" do celular.
 
 Todos esses dados extras (`status`, `avaliacao`, `dataConclusao`, `capa`)
 também podem vir na planilha de importação em lote — veja as colunas
 aceitas na aba "Importar planilha" do app.
 
-## 8. Visual do celular: estante + dashboard
+## 8. Visual do celular: catálogo de gabinete
 
-O site do celular mostra um painel de estatísticas no topo (vira coluna
-lateral fixa quando a tela é larga, como tablet ou computador): total de
-itens, quantos foram lidos, total de páginas lidas, e um resumo por
-gênero e por mídia com mini barras. Abaixo, os itens aparecem como uma
-estante — capas quadradas quando têm imagem; sem capa, ganham uma
-"lombada" colorida com o título na vertical (a cor é sempre a mesma pra
-um mesmo item). Toque em qualquer livro pra abrir os detalhes.
+O site do celular segue um estilo "catálogo/arquivo de biblioteca":
+menu verde-escuro fixo (vira uma barra horizontal rolável no topo, no
+celular), fundo marfim, destaque vermelho-cinábrio, tipografia serifada
+(Fraunces) combinada com mono (IBM Plex Mono) nas etiquetas e códigos.
+Tem 4 telas, acessíveis pelo menu:
 
-A paleta de cores fica toda centralizada no topo do `style.css`, nas
-variáveis `:root` (`--azul-ardosia`, `--verde-salvia`, `--creme`,
-`--areia`, `--terracota`) — mude ali se quiser ajustar os tons.
+- **Acervo** — a lista completa, com busca, filtros por status/mídia, e
+  um painel de métricas no topo (total de itens, lidos, páginas lidas, e
+  a meta de leitura do ano).
+- **Taxonomia** — todos os códigos de mídia e gênero do ID Shinko, com
+  descrição e quantos itens do seu acervo usam cada um. Útil como
+  referência rápida na hora de cadastrar.
+- **Leitura** — um diário: o que está "Lendo agora" em destaque, e um
+  histórico ("Concluídos") de tudo marcado como lido, mais recente primeiro.
+- **Quero ler** — a fila de prioridade, numerada. A ordem é definida no
+  desktop (aba "📌 Quero ler", com setas ↑/↓) — o celular só mostra,
+  não edita (lembrando: celular é só leitura nessa arquitetura).
+
+Tocar em qualquer item, em qualquer tela, abre a ficha com os detalhes.
+
+A paleta de cores fica centralizada no topo do `style.css`, nas
+variáveis `:root` (`--tinta`, `--marfim`, `--cinabrio`, `--pinheiro`,
+`--sidebar`, `--dourado`) — mude ali se quiser ajustar os tons.
 
 O campo **Páginas** (opcional, no cadastro manual ou na planilha de
-importação) alimenta o "páginas lidas" do dashboard — some as páginas de
-todo item marcado como "Lido". Sem esse campo preenchido, o item
-simplesmente não entra na conta.
+importação) alimenta o "páginas lidas" do painel de métricas — some as
+páginas de todo item marcado como "Lido". Sem esse campo preenchido, o
+item simplesmente não entra na conta.
 
-Isso usa a fonte Google Fonts "Fraunces" via link no `index.html` —
-precisa de internet no celular pra carregar (comum, já que o próprio
-site depende de internet).
+Isso usa as fontes Google Fonts "Fraunces" e "IBM Plex" via `@import` no
+`style.css` — precisa de internet no celular pra carregar (comum, já que
+o próprio site depende de internet).
 
 ## 9. Limitações conhecidas
 

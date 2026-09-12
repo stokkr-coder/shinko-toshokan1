@@ -13,6 +13,7 @@ document.querySelectorAll('.aba-btn').forEach((btn) => {
     el(`aba-${btn.dataset.aba}`).classList.add('ativa');
     if (btn.dataset.aba === 'acervo') carregarAcervo();
     if (btn.dataset.aba === 'meta') carregarMetas();
+    if (btn.dataset.aba === 'quero-ler') carregarQueroLer();
   });
 });
 
@@ -301,6 +302,78 @@ el('filtroAcervo').addEventListener('input', (e) => {
     i.id.toLowerCase().includes(termo)
   ));
 });
+
+// ---------- Quero ler: ordem de prioridade ----------
+async function carregarQueroLer() {
+  const acervo = await fetch('/api/itens').then((r) => r.json());
+  let lista = acervo.filter((i) => i.status === 'quero_ler');
+
+  // Normaliza a ordem na primeira vez (itens sem "ordem" definida)
+  const semOrdem = lista.some((i) => i.ordem === undefined || i.ordem === null);
+  if (semOrdem) {
+    lista.sort((a, b) => (a.ordem ?? Infinity) - (b.ordem ?? Infinity) || a.criadoEm.localeCompare(b.criadoEm));
+    for (let idx = 0; idx < lista.length; idx++) {
+      if (lista[idx].ordem !== idx) {
+        await fetch(`/api/itens/${encodeURIComponent(lista[idx].id)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ordem: idx }),
+        });
+        lista[idx].ordem = idx;
+      }
+    }
+  } else {
+    lista.sort((a, b) => a.ordem - b.ordem);
+  }
+
+  el('totalQueroLer').textContent = lista.length;
+  renderizarQueroLer(lista);
+}
+
+function renderizarQueroLer(lista) {
+  const container = el('listaQueroLer');
+  el('queroLerVazio').style.display = lista.length ? 'none' : 'block';
+
+  container.innerHTML = lista.map((item, idx) => `
+    <div class="item-quero-ler">
+      <span class="ordem-num">${idx + 1}</span>
+      <span class="setas">
+        <button data-acao="subir" data-id="${item.id}" ${idx === 0 ? 'disabled' : ''} title="Subir">▲</button>
+        <button data-acao="descer" data-id="${item.id}" ${idx === lista.length - 1 ? 'disabled' : ''} title="Descer">▼</button>
+      </span>
+      <span class="info-item">
+        <div class="titulo-item">${item.titulo}</div>
+        <div class="autor-item">${item.autor}${item.serie ? ' · ' + item.serie : ''}</div>
+      </span>
+      <code>${item.id}</code>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('button[data-acao]').forEach((btn) => {
+    btn.addEventListener('click', () => moverQueroLer(lista, btn.dataset.id, btn.dataset.acao));
+  });
+}
+
+async function moverQueroLer(lista, id, acao) {
+  const idx = lista.findIndex((i) => i.id === id);
+  const alvo = acao === 'subir' ? idx - 1 : idx + 1;
+  if (alvo < 0 || alvo >= lista.length) return;
+
+  // Troca a ordem entre os dois itens vizinhos
+  const ordemA = lista[idx].ordem;
+  const ordemB = lista[alvo].ordem;
+
+  await Promise.all([
+    fetch(`/api/itens/${encodeURIComponent(lista[idx].id)}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ordem: ordemB }),
+    }),
+    fetch(`/api/itens/${encodeURIComponent(lista[alvo].id)}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ordem: ordemA }),
+    }),
+  ]);
+
+  carregarQueroLer();
+}
 
 // ---------- Meta de leitura ----------
 async function carregarMetas() {

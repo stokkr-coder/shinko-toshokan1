@@ -1,11 +1,11 @@
 {
   "name": "Shinko Toshokan",
   "short_name": "Shinko",
-  "description": "Acervo pessoal de livros, teologia, mangás, manhwas, manhuas e comics.",
+  "description": "Catálogo pessoal de livros, teologia, mangás, manhwas, manhuas e comics.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#425F70",
-  "theme_color": "#425F70",
+  "background_color": "#1c2a25",
+  "theme_color": "#1c2a25",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
