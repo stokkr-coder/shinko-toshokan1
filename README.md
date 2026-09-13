@@ -216,6 +216,9 @@ Isso usa as fontes Google Fonts "Fraunces" e "IBM Plex" via `@import` no
 `style.css` — precisa de internet no celular pra carregar (comum, já que
 o próprio site depende de internet).
 
+O app **desktop** (`localhost:3000`) segue a mesma paleta e tipografia —
+visual único do início ao fim, do cadastro até a consulta no celular.
+
 ## 9. Limitações conhecidas
 
 - O parser de texto livre é heurístico — formatos ambíguos (ex:
